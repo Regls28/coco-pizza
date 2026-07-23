@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coco Pizza | Ordena en linea</title>
+  <style>
+    :root {
+      --bg: #111410;
+      --panel: #1b2119;
+      --panel-2: #253123;
+      --line: #395238;
+      --text: #fff8ee;
+      --muted: #d4c8b7;
+      --green: #4caf50;
+      --green-dark: #2f7d32;
+      --red: #d32f2f;
+      --gold: #f5c400;
+      --blue: #1687d9;
+      --whatsapp: #25d366;
+      --shadow: 0 22px 70px rgba(0,0,0,.34);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding-bottom: 94px;
+      background:
+        radial-gradient(circle at 14% 0%, rgba(76,175,80,.2), transparent 30%),
+        linear-gradient(180deg, #151914 0%, var(--bg) 48%, #0d0f0c 100%);
+      color: var(--text);
+      font-family: "Segoe UI", Arial, sans-serif;
+    }
+
+    button, input, select { font: inherit; }
+    a { color: inherit; }
+
+    .hero {
+      overflow: hidden;
+      border-bottom: 1px solid var(--line);
+      background:
+        linear-gradient(90deg, rgba(17,20,16,.97) 0%, rgba(17,20,16,.9) 54%, rgba(17,20,16,.42) 100%),
+        radial-gradient(circle at 78% 48%, #f5c400 0 4.5%, #d32f2f 4.7% 9.7%, #f8e0a0 9.9% 12.3%, #4caf50 12.5% 18%, transparent 18.2%),
+        linear-gradient(135deg, #173d1d, #111410 72%);
+    }
+
+    .hero-inner {
+      max-width: 1120px;
+      min-height: 410px;
+      margin: 0 auto;
+      padding: 34px 18px 42px;
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(280px, .9fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .brand-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      width: max-content;
+      max-width: 100%;
+      padding: 8px 12px;
+      border: 1px solid rgba(76,175,80,.42);
+      background: rgba(27,33,25,.74);
+      color: #baf2bb;
+      border-radius: 999px;
+      font-size: .82rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .brand-logo {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+      border-radius: 50%;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+      flex: 0 0 auto;
+    }
+
+    .fallback-logo {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--green);
+      color: #061006;
+      font-weight: 950;
+    }
+
+    h1 {
+      margin: 18px 0 10px;
+      font-size: clamp(2.45rem, 8vw, 5.15rem);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .lead {
+      max-width: 650px;
+      margin: 0;
+      color: var(--muted);
+      font-size: clamp(1rem, 2.2vw, 1.18rem);
+      line-height: 1.55;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 26px;
+    }
+
+    .hero-info {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .info-tile {
+      min-height: 78px;
+      padding: 13px;
+      border: 1px solid rgba(255,255,255,.11);
+      background: rgba(255,255,255,.045);
+      border-radius: 8px;
+    }
+
+    .info-tile strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--gold);
+      font-size: .78rem;
+      text-transform: uppercase;
+    }
+
+    .info-tile span {
+      color: var(--muted);
+      font-size: .9rem;
+      line-height: 1.35;
+    }
+
+    .pizza-hero {
+      justify-self: center;
+      width: min(365px, 86vw);
+      aspect-ratio: 1;
+      position: relative;
+      filter: drop-shadow(0 34px 40px rgba(0,0,0,.48));
+    }
+
+    .pizza-hero::before {
+      content: "";
+      position: absolute;
+      inset: 6%;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 29% 31%, #8d1f16 0 5%, transparent 5.4%),
+        radial-gradient(circle at 66% 29%, #8d1f16 0 5%, transparent 5.4%),
+        radial-gradient(circle at 43% 64%, #8d1f16 0 5%, transparent 5.4%),
+        radial-gradient(circle at 71% 67%, #8d1f16 0 5%, transparent 5.4%),
+        radial-gradient(circle at 31% 72%, #fff1cf 0 4.2%, transparent 4.6%),
+        radial-gradient(circle at 57% 48%, #fff1cf 0 4.2%, transparent 4.6%),
+        repeating-conic-gradient(from 10deg, transparent 0 43deg, rgba(97,34,23,.56) 43.5deg 45deg),
+        radial-gradient(circle, #f5c64c 0 58%, #d8842d 59% 68%, #88331d 69%);
+      box-shadow: inset 0 0 0 11px #e19b3a, inset 0 0 0 22px rgba(105,36,22,.34);
+    }
+
+    .pizza-hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.16);
+      background: radial-gradient(circle at 28% 20%, rgba(255,255,255,.18), transparent 29%);
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 24px 18px 18px;
+    }
+
+    .promo-band {
+      border: 1px solid rgba(76,175,80,.52);
+      border-radius: 8px;
+      background: linear-gradient(135deg, #214f25, #0f1f0f);
+      box-shadow: var(--shadow);
+      display: grid;
+      gap: 8px;
+      margin-bottom: 24px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .promo-band strong {
+      color: var(--green);
+      font-size: clamp(2.4rem, 9vw, 4rem);
+      line-height: .9;
+    }
+
+    .promo-band span {
+      color: var(--gold);
+      font-size: 1.05rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .promo-band small { color: var(--muted); }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: end;
+      margin: 30px 0 14px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      color: var(--green);
+      font-size: clamp(1.35rem, 3vw, 2rem);
+      text-transform: uppercase;
+    }
+
+    .section-title p {
+      max-width: 470px;
+      margin: 0;
+      color: var(--muted);
+      font-size: .94rem;
+      line-height: 1.45;
+      text-align: right;
+    }
+
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .menu-grid.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+    .product, .modal-content {
+      border: 1px solid var(--line);
+      background: linear-gradient(180deg, var(--panel), #151a14);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .product {
+      min-height: 198px;
+      padding: 17px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--green), var(--gold));
+    }
+
+    .product.accent-red::before { background: linear-gradient(90deg, var(--red), var(--gold)); }
+
+    .product h3 {
+      margin: 0;
+      padding-right: 88px;
+      font-size: 1.08rem;
+      line-height: 1.2;
+      text-transform: uppercase;
+    }
+
+    .product p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.45;
+      font-size: .92rem;
+    }
+
+    .price {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      min-width: 68px;
+      padding: 7px 11px;
+      border-radius: 999px;
+      background: var(--gold);
+      color: #111;
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: auto;
+    }
+
+    .tag {
+      border: 1px solid rgba(76,175,80,.32);
+      background: rgba(76,175,80,.1);
+      color: #baf2bb;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: .77rem;
+      font-weight: 800;
+    }
+
+    .tag.red {
+      border-color: rgba(211,47,47,.38);
+      background: rgba(211,47,47,.12);
+      color: #ffb4a8;
+    }
+
+    .premium-note {
+      border: 1px solid rgba(211,47,47,.42);
+      border-radius: 8px;
+      background: rgba(211,47,47,.1);
+      color: #ffcabf;
+      font-size: .88rem;
+      font-weight: 800;
+      line-height: 1.4;
+      margin: 0 0 14px;
+      padding: 12px 14px;
+      text-align: center;
+    }
+
+    .premium-note strong { color: var(--gold); }
+
+    .premium-badge {
+      display: inline-flex;
+      margin-left: 6px;
+      border-radius: 999px;
+      background: rgba(211,47,47,.18);
+      color: #ffcabf;
+      font-size: .68rem;
+      font-weight: 900;
+      padding: 3px 7px;
+      vertical-align: middle;
+    }
+
+    .btn {
+      border: 0;
+      border-radius: 8px;
+      min-height: 46px;
+      padding: 12px 16px;
+      background: var(--green);
+      color: #071007;
+      cursor: pointer;
+      font-weight: 950;
+      text-transform: uppercase;
+      transition: transform .18s ease, background .18s ease, border-color .18s ease;
+    }
+
+    .btn:hover { transform: translateY(-1px); background: #64c967; }
+    .btn:active { transform: translateY(0); }
+    .btn.full { width: 100%; }
+    .btn.red { background: var(--red); color: #fff; }
+    .btn.red:hover { background: #ec3d3d; }
+    .btn.whatsapp { background: var(--whatsapp); color: #071007; }
+    .btn.blue { background: var(--blue); color: #fff; }
+    .btn.secondary {
+      background: transparent;
+      border: 1px solid rgba(76,175,80,.52);
+      color: #baf2bb;
+    }
+    .btn.secondary:hover {
+      background: rgba(76,175,80,.1);
+      border-color: var(--green);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      overflow-y: auto;
+      padding: 22px 14px;
+      background: rgba(7, 8, 7, .88);
+      backdrop-filter: blur(6px);
+    }
+
+    .modal-content {
+      width: min(660px, 100%);
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    .modal-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+      align-items: start;
+      margin-bottom: 14px;
+    }
+
+    .modal h2 {
+      margin: 0;
+      color: var(--green);
+      text-transform: uppercase;
+    }
+
+    .close-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #121811;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 950;
+    }
+
+    .visual-box {
+      display: grid;
+      gap: 8px;
+      min-height: 86px;
+      margin: 14px 0;
+      padding: 8px;
+      border: 1px solid var(--line);
+      background: #0f130e;
+      border-radius: 8px;
+    }
+
+    .box-cell {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 70px;
+      border: 1px dashed rgba(245,196,0,.5);
+      color: var(--gold);
+      background: rgba(255,255,255,.03);
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+      font-size: .78rem;
+      font-weight: 850;
+    }
+
+    #visual-preview-modal {
+      border: 0;
+      background: transparent;
+      padding: 4px;
+      gap: 10px;
+      margin: 12px 0;
+    }
+
+    #visual-preview-modal .box-cell {
+      border-radius: 50%;
+      border: 2px dashed rgba(245,196,0,.5);
+      aspect-ratio: 1 / 1;
+      min-height: 92px;
+      height: 92px;
+      width: 92px;
+      margin: auto;
+      cursor: pointer;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+
+    #visual-preview-modal .box-cell:hover { background: rgba(76,175,80,.12); }
+    #visual-preview-modal .box-cell.selected {
+      background: rgba(76,175,80,.22);
+      border-color: var(--green);
+      border-style: solid;
+      color: #fff;
+    }
+
+    .extras-row {
+      display: grid;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .extras-col {
+      min-width: 0;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 8px;
+      background: #111811;
+    }
+
+    .chk-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 0;
+      font-size: .74rem;
+      min-width: 0;
+    }
+
+    .chk-row input[type=checkbox] {
+      width: 15px;
+      height: 15px;
+      margin: 0;
+      accent-color: var(--green);
+      cursor: pointer;
+    }
+
+    .chk-label {
+      min-width: 0;
+      word-break: break-word;
+      color: var(--muted);
+    }
+
+    .chk-price {
+      margin-left: auto;
+      white-space: nowrap;
+      color: var(--gold);
+      font-size: .72rem;
+      flex-shrink: 0;
+    }
+
+    .picking-label, .refresco-area, .payment-note {
+      border: 1px solid var(--line);
+      background: #111811;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 10px 0;
+    }
+
+    .picking-label {
+      display: none;
+      color: #baf2bb;
+      text-align: center;
+      font-weight: 850;
+      font-size: .84rem;
+    }
+
+    .flavor-list {
+      max-height: 330px;
+      overflow-y: auto;
+      border: 1px solid var(--line);
+      background: #0f130e;
+      border-radius: 8px;
+      margin-top: 8px;
+    }
+
+    .flavor-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .flavor-item:last-child { border-bottom: 0; }
+    .flavor-item strong { display: block; margin-bottom: 3px; }
+    .flavor-item small { color: var(--muted); line-height: 1.35; }
+
+    .flavor-btn {
+      width: 44px;
+      height: 40px;
+      border: 0;
+      border-radius: 8px;
+      background: var(--green);
+      color: #061006;
+      font-size: 1.25rem;
+      font-weight: 950;
+      cursor: pointer;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      min-height: 46px;
+      margin: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #111811;
+      color: var(--text);
+      padding: 11px 12px;
+      outline: none;
+    }
+
+    textarea { min-height: 72px; resize: vertical; }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--green);
+      box-shadow: 0 0 0 3px rgba(76,175,80,.12);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .form-grid .wide { grid-column: 1 / -1; }
+
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 10px 0 12px;
+    }
+
+    .pay-option {
+      min-height: 52px;
+      border: 1px solid var(--line);
+      background: #111811;
+      color: var(--muted);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      cursor: pointer;
+      font-weight: 850;
+      font-size: .88rem;
+    }
+
+    .pay-option.active {
+      border-color: var(--green);
+      background: rgba(76,175,80,.1);
+      color: #baf2bb;
+    }
+
+    .cart-item-detail {
+      position: relative;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--gold);
+      background: #111811;
+      border-radius: 8px;
+      padding: 12px 44px 12px 12px;
+      margin-top: 8px;
+    }
+
+    .cart-item-detail small, .cart-item-detail .flavors {
+      display: block;
+      color: var(--muted);
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    .remove-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(211,47,47,.42);
+      background: rgba(211,47,47,.11);
+      color: #ff9388;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 950;
+    }
+
+    .total-final {
+      text-align: right;
+      color: var(--gold);
+      font-size: 1.8rem;
+      margin: 16px 0 8px;
+    }
+
+    .fine-print {
+      color: #b8ad9d;
+      font-size: .78rem;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .cart-bar {
+      position: fixed;
+      left: 50%;
+      bottom: 14px;
+      transform: translateX(-50%);
+      width: min(760px, calc(100% - 24px));
+      min-height: 64px;
+      border: 1px solid rgba(245,196,0,.38);
+      border-radius: 8px;
+      background: var(--green);
+      color: #061006;
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 16px;
+      z-index: 1000;
+      box-shadow: 0 18px 42px rgba(0,0,0,.38);
+      cursor: pointer;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .cart-count {
+      min-width: 34px;
+      height: 34px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(0,0,0,.18);
+    }
+
+    @media (max-width: 880px) {
+      .hero-inner { grid-template-columns: 1fr; min-height: 0; }
+      .pizza-hero { width: min(280px, 72vw); }
+      .hero-info { grid-template-columns: 1fr; }
+      .section-title { align-items: start; flex-direction: column; }
+      .section-title p { text-align: left; }
+      .menu-grid, .menu-grid.two { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      body { padding-bottom: 104px; }
+      .hero-inner { padding-top: 22px; }
+      .hero-actions, .form-grid, .payment-methods { display: grid; grid-template-columns: 1fr; }
+      #visual-preview-modal .box-cell { width: 76px; height: 76px; min-height: 76px; font-size: .66rem; }
+      .extras-row { grid-template-columns: 1fr !important; }
+      .cart-bar { grid-template-columns: 1fr auto; gap: 8px; }
+      .cart-bar strong { grid-column: 1 / -1; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+        <div>
+          <img src="coco pizza.png" alt="Logo Coco Pizza" style="max-height:180px;">
+          <div class="info-header">
+        </div>
+        <h1>Coco Pizza</h1>
+        <p class="lead">Ordena paquetes, pizzas al 2x1, C4, especialidad marinera, complementos y envia tu pedido directo por WhatsApp.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#paquetes" style="text-decoration:none; display:inline-flex; align-items:center;">Ver paquetes</a>
+          <button class="btn secondary" type="button" onclick="openCart()">Ver carrito</button>
+        </div>
+        <div class="hero-info">
+          <div class="info-tile">
+            <strong>Direccion</strong>
+            <span>Av. Las Torres #80-4, Col. Lomas del Sur</span>
+          </div>
+          <div class="info-tile">
+            <strong>Sucursal</strong>
+            <span>Las Torres · (222) 891 49 92 / (222) 368 63 83</span>
+          </div>
+          <div class="info-tile">
+            <strong>Horario</strong>
+            <span>Lun-Sab 12:00-10:00 PM · Dom 2:00-11:00 PM</span>
+          </div>
+        </div>
+      </div>
+      <div class="pizza-hero" aria-label="Pizza ilustrada"></div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="promo-band">
+      <strong>2 x 1</strong>
+      <span>Todos los dias en pizzas</span>
+      <small>No aplica en promo mostrador, paquetes ni C4. Se aplican restricciones.</small>
+    </section>
+
+    <section id="paquetes">
+      <div class="section-title">
+        <h2>Paquetes</h2>
+        <p>Promociones listas para compartir. Los paquetes no participan en 2x1.</p>
+      </div>
+      <div class="menu-grid">
+        <article class="product">
+          <span class="price">$242</span>
+          <h3>Paquete 1</h3>
+          <p>1 pizza familiar a elegir + refresco de 2 litros.</p>
+          <div class="meta"><span class="tag">1 sabor</span><span class="tag">Incluye refresco</span></div>
+          <button class="btn full" onclick="openPicker('PAQUETE 1 - 1 Pizza Familiar + Refresco', 1, 'ALL', 242, true, '', 'familiar')">Elegir sabor</button>
+        </article>
+        <article class="product">
+          <span class="price">$278</span>
+          <h3>Paquete 2</h3>
+          <p>1 pizza familiar a elegir + refresco de 2 litros + papas fritas.</p>
+          <div class="meta"><span class="tag">1 sabor</span><span class="tag">Con papas</span></div>
+          <button class="btn full" onclick="openPicker('PAQUETE 2 - Pizza + Refresco + Papas', 1, 'ALL', 278, true, '', 'familiar')">Elegir sabor</button>
+        </article>
+        <article class="product">
+          <span class="price">$369</span>
+          <h3>Paquete C4</h3>
+          <p>Pizza C4 de 24 rebanadas con orilla de ajonjoli tostado rellena de queso crema + refresco.</p>
+          <div class="meta"><span class="tag">4 sabores</span><span class="tag">No aplica 2x1</span></div>
+          <button class="btn full" onclick="openPickerRect('PAQUETE C4 - Pizza C4 + Refresco', 4, 369, true)">Elegir sabores</button>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Promo Mostrador</h2>
+        <p>Disponible solo para recoger en sucursal.</p>
+      </div>
+      <div class="menu-grid">
+        <article class="product accent-red">
+          <span class="price">$139</span>
+          <h3>Hawaiana o Pepperoni Mediana</h3>
+          <p>Valido solo en mostrador.</p>
+          <div class="meta"><span class="tag red">Mostrador</span><span class="tag red">No aplica 2x1</span></div>
+          <button class="btn red full" onclick="openPickerRect('PROMO MOSTRADOR', 1, 139, false)">Seleccionar</button>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Especialidades al 2x1</h2>
+        <p>Dos pizzas del mismo tamano. La segunda pizza es gratis.</p>
+      </div>
+      <div class="premium-note">
+        <strong>Marinera es premium.</strong> Si combinas cualquier especialidad con Marinera, el sistema cambia automaticamente al precio Marinera del mismo tamano.
+      </div>
+      <div class="menu-grid">
+        <article class="product">
+          <span class="price">$155</span>
+          <h3>Chica 2x1</h3>
+          <p>23 cm · 6 rebanadas por pizza.</p>
+          <div class="meta"><span class="tag">2 sabores</span><span class="tag">2x1</span><span class="tag red">Marinera $255</span></div>
+          <button class="btn full" onclick="openPicker('2x1 CHICA 23cm', 2, 'ALL', 155, false, '', 'chica')">Elegir sabores</button>
+        </article>
+        <article class="product">
+          <span class="price">$230</span>
+          <h3>Mediana 2x1</h3>
+          <p>28 cm · 8 rebanadas por pizza.</p>
+          <div class="meta"><span class="tag">2 sabores</span><span class="tag">2x1</span><span class="tag red">Marinera $353</span></div>
+          <button class="btn full" onclick="openPicker('2x1 MEDIANA 28cm', 2, 'ALL', 230, false, '', 'mediana')">Elegir sabores</button>
+        </article>
+        <article class="product">
+          <span class="price">$295</span>
+          <h3>Grande 2x1</h3>
+          <p>33 cm · 8 rebanadas por pizza.</p>
+          <div class="meta"><span class="tag">2 sabores</span><span class="tag">2x1</span><span class="tag red">Marinera $445</span></div>
+          <button class="btn full" onclick="openPicker('2x1 GRANDE 33cm', 2, 'ALL', 295, false, '', 'grande')">Elegir sabores</button>
+        </article>
+        <article class="product">
+          <span class="price">$393</span>
+          <h3>Familiar 2x1</h3>
+          <p>40 cm · 10 rebanadas por pizza.</p>
+          <div class="meta"><span class="tag">2 sabores</span><span class="tag">2x1</span><span class="tag red">Marinera $526</span></div>
+          <button class="btn full" onclick="openPicker('2x1 FAMILIAR 40cm', 2, 'ALL', 393, false, '', 'familiar')">Elegir sabores</button>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Complementos</h2>
+        <p>Agrega pasta, papas o alitas a tu pedido.</p>
+      </div>
+      <div class="menu-grid">
+        <article class="product">
+          <span class="price">$90</span>
+          <h3>Spaghetti Gratinado</h3>
+          <p>Jamon, quesos y tocino.</p>
+          <div class="meta"><span class="tag">Complemento</span></div>
+          <button class="btn full" onclick="addToCartDirect('Spaghetti Gratinado', 90)">Agregar</button>
+        </article>
+        <article class="product">
+          <span class="price">$99</span>
+          <h3>Spaghetti Poblano</h3>
+          <p>Champinon, pollo, rajas poblanas y elote.</p>
+          <div class="meta"><span class="tag">Complemento</span></div>
+          <button class="btn full" onclick="addToCartDirect('Spaghetti Poblano', 99)">Agregar</button>
+        </article>
+        <article class="product">
+          <span class="price">$221</span>
+          <h3>Spaghetti Marinero</h3>
+          <p>Camaron, pulpo, atun y mejillon.</p>
+          <div class="meta"><span class="tag red">Marinero</span></div>
+          <button class="btn full" onclick="addToCartDirect('Spaghetti Marinero', 221)">Agregar</button>
+        </article>
+        <article class="product">
+          <span class="price">$62</span>
+          <h3>Papas a la Francesa</h3>
+          <p>Orden individual.</p>
+          <div class="meta"><span class="tag">Papas</span></div>
+          <button class="btn full" onclick="addToCartDirect('Papas a la Francesa', 62)">Agregar</button>
+        </article>
+        <article class="product">
+          <span class="price">$59</span>
+          <h3>Alitas</h3>
+          <p>Orden de alitas.</p>
+          <div class="meta"><span class="tag">Alitas</span></div>
+          <button class="btn full" onclick="addToCartDirect('Alitas', 59)">Agregar</button>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="pickerModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="pickerTitle">
+    <div class="modal-content">
+      <div class="modal-head">
+        <div>
+          <h2 id="pickerTitle"></h2>
+          <p style="margin:6px 0 0; color:var(--muted);">Toca cada pizza para elegir sabor. Puedes activar mitad y mitad u orilla extra cuando aparezca la opcion.</p>
+        </div>
+        <button class="close-btn" type="button" onclick="closeModal()" aria-label="Cerrar">X</button>
+      </div>
+      <div id="visual-preview-modal" class="visual-box"></div>
+      <div id="extras-row" class="extras-row"></div>
+      <div id="picking-label" class="picking-label"></div>
+      <div id="refresco-area" class="refresco-area" style="display:none;">
+        <p style="margin:0 0 8px;"><strong>Refresco 2 L:</strong></p>
+        <select id="sel-refresco" onchange="updateCocaExtra()">
+          <option value="Sabor">Sabor disponible</option>
+          <option value="Coca">Coca Cola (+ $20)</option>
+        </select>
+      </div>
+      <div id="flavorList" class="flavor-list"></div>
+      <p id="p-total" style="text-align:right; color:var(--gold); font-size:.9rem; margin:10px 0;"></p>
+      <button class="btn full" onclick="confirmOrder()">Agregar al carrito</button>
+      <button class="btn secondary full" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="pickerModal2" class="modal" role="dialog" aria-modal="true" aria-labelledby="pickerTitle2">
+    <div class="modal-content">
+      <div class="modal-head">
+        <div>
+          <h2 id="pickerTitle2"></h2>
+          <p style="margin:6px 0 0; color:var(--muted);">Elige todos los sabores para agregarlo al carrito.</p>
+        </div>
+        <button class="close-btn" type="button" onclick="closeModal2()" aria-label="Cerrar">X</button>
+      </div>
+      <div id="visual-preview-modal2" class="visual-box"></div>
+      <div id="refresco-area2" class="refresco-area" style="display:none;">
+        <p style="margin:0 0 8px;"><strong>Refresco 2 L:</strong></p>
+        <select id="sel-refresco2" onchange="updateCocaExtra2()">
+          <option value="Sabor">Sabor disponible</option>
+          <option value="Coca">Coca Cola (+ $20)</option>
+        </select>
+      </div>
+      <div id="flavorList2" class="flavor-list"></div>
+      <button class="btn full" onclick="confirmOrder2()">Agregar al carrito</button>
+      <button class="btn secondary full" onclick="closeModal2()">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="cartModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+    <div class="modal-content">
+      <div class="modal-head">
+        <h2 id="cartTitle">Confirmar pedido</h2>
+        <button class="close-btn" type="button" onclick="closeCart()" aria-label="Cerrar">X</button>
+      </div>
+      <div id="cartItems"></div>
+      <button class="btn blue full" style="margin-top:14px;" onclick="getLocation()">Compartir ubicacion GPS</button>
+      <p id="geo-status" style="font-size:.82rem; color:var(--gold); text-align:center; min-height:20px;"></p>
+      <div class="form-grid">
+        <input type="text" id="c-nombre" placeholder="Nombre completo" autocomplete="name">
+        <input type="tel" id="c-tel" placeholder="Telefono" autocomplete="tel">
+        <input class="wide" type="text" id="c-dir" placeholder="Calle, numero y entre calles" autocomplete="street-address">
+        <input type="text" id="c-colonia" placeholder="Colonia">
+        <input type="text" id="c-zaguan" placeholder="Color de zaguan">
+        <input type="text" id="c-fachada" placeholder="Color de fachada">
+        <textarea class="wide" id="c-notas" placeholder="Notas para Coco Pizza o repartidor"></textarea>
+      </div>
+      <h3 style="margin:18px 0 8px;">Forma de pago</h3>
+      <div class="payment-methods">
+        <div class="pay-option active" id="p-efe" onclick="setPay('Efectivo')">Efectivo</div>
+        <div class="pay-option" id="p-tra" onclick="setPay('Transferencia')">Transferencia</div>
+        <div class="pay-option" id="p-tar" onclick="setPay('Tarjeta')">Tarjeta (+4%)</div>
+      </div>
+      <div id="info-pago-extra" class="payment-note" style="display:none;">
+        <p id="txt-pago-inst" style="font-size:.9rem; margin:0;"></p>
+        <button id="btn-mp" class="btn blue full" style="display:none; margin-top:12px;" onclick="window.open('https://link.mercadopago.com.mx/cocopizza','_blank')">Pagar ahora</button>
+      </div>
+      <h2 id="total-final" class="total-final">Total: $0</h2>
+      <p class="fine-print">Al enviar el pedido se abrira WhatsApp. Si pagaste por transferencia o tarjeta, envia tambien tu comprobante.</p>
+      <button class="btn whatsapp full" style="height:60px; font-size:1.05rem;" onclick="sendWhatsApp()">Enviar pedido por WhatsApp</button>
+      <button class="btn secondary full" onclick="closeCart()">Seguir comprando</button>
+    </div>
+  </div>
+
+  <div class="cart-bar" onclick="openCart()">
+    <strong>Mi carrito</strong>
+    <span id="cart-count" class="cart-count">0</span>
+    <span id="cart-total">$0</span>
+  </div>
+
+  <script>
+    const especialidades = [
+      {n:"CLASICA", i:"Champinon, pimiento verde, pepperoni"},
+      {n:"COCO ESPECIAL", i:"Salchicha, pollo, cebolla, jalapeno"},
+      {n:"CARNES FRIAS", i:"Pierna, lomo, salchicha, pepperoni, tocino"},
+      {n:"AL PASTOR", i:"Carne al pastor, cebolla, rajas, pina"},
+      {n:"RANCHERA", i:"Frijoles, jalapeno, chorizo, aguacate"},
+      {n:"MEXICANA", i:"Pierna, pollo, jalapeno, aguacate"},
+      {n:"POBLANA", i:"Champinon, pollo, chile poblano, elote"},
+      {n:"VEGETARIANA", i:"Champinon, pimiento verde, cebolla, elote, aceituna"},
+      {n:"HAWAIANA TRADICIONAL", i:"Jamon, pina, tocino"},
+      {n:"HAWAIANA INTERNACIONAL", i:"Jamon, pina, cereza"},
+      {n:"COMBINADA", i:"Champinon, pimiento verde, cebolla, jamon, salami, chorizo"},
+      {n:"CUBANA", i:"Pierna, atun, jalapeno, jitomate, tocino, aguacate"},
+      {n:"MARINERA", i:"Camaron, pulpo, atun, mejillon, cebolla, aceitunas"}
+    ];
+
+    const ORILLA = {chica:20, mediana:25, grande:30, familiar:35};
+    const MARINERA_2X1_PRICE = {chica:255, mediana:353, grande:445, familiar:526};
+    let cart = [];
+    let selectedPay = "Efectivo";
+    let userLocation = "No enviada";
+    const linkMP = "https://link.mercadopago.com.mx/cocopizza";
+    let cur = null;
+    let slots = [];
+    let activePizza = 0;
+    let activeHalf = 1;
+    let cur2 = null;
+
+    function openPicker(type, limit, allowed, price, hasRef=false, rectMode="", size="") {
+      cur = {type, limit, basePrice:price, hasRef, size, allowed, refresco:"Sabor", cocaExtra:0};
+      slots = [];
+      for (let i = 0; i < limit; i++) slots.push({sabor1:"", sabor2:"", mitad:false, orilla:"none"});
+      activePizza = 0;
+      activeHalf = 1;
+      document.getElementById("pickerTitle").innerText = type;
+      document.getElementById("refresco-area").style.display = hasRef ? "block" : "none";
+      document.getElementById("sel-refresco").value = "Sabor";
+      renderVisor();
+      renderFlavorList();
+      document.getElementById("pickerModal").style.display = "block";
+    }
+
+    function renderVisor() {
+      if (!cur) return;
+      const vBox = document.getElementById("visual-preview-modal");
+      const extRow = document.getElementById("extras-row");
+      const op = ORILLA[cur.size] || 0;
+      const showExtras = cur.size !== "";
+      vBox.style.gridTemplateColumns = "repeat(" + cur.limit + ", 1fr)";
+      extRow.style.gridTemplateColumns = "repeat(" + cur.limit + ", 1fr)";
+      vBox.innerHTML = "";
+      extRow.innerHTML = "";
+
+      slots.forEach((sl, i) => {
+        const cell = document.createElement("div");
+        cell.className = "box-cell" + (sl.sabor1 ? " selected" : "");
+        cell.id = "vcell-" + i;
+
+        if (sl.mitad) {
+          cell.style.cssText += "flex-direction:column;padding:3px;";
+          cell.innerHTML =
+            '<div style="flex:1;width:100%;display:flex;align-items:center;justify-content:center;border-bottom:1px dashed #666;font-size:.62rem;padding:2px;cursor:pointer;color:' + (sl.sabor1 ? "#fff" : "var(--gold)") + ';" onclick="startPicking(' + i + ',1)">' +
+            (sl.sabor1 ? "1/2 " + sl.sabor1 : "1/2 S1") +
+            '</div><div style="flex:1;width:100%;display:flex;align-items:center;justify-content:center;font-size:.62rem;padding:2px;cursor:pointer;color:' + (sl.sabor2 ? "#fff" : "#888") + ';" onclick="startPicking(' + i + ',2)">' +
+            (sl.sabor2 ? "1/2 " + sl.sabor2 : "1/2 S2") +
+            "</div>";
+        } else {
+          cell.style.fontSize = sl.sabor1 ? ".68rem" : ".72rem";
+          cell.innerText = sl.sabor1 || ("Sabor " + (i + 1));
+          cell.onclick = () => startPicking(i, 1);
+        }
+
+        if (activePizza === i) cell.style.outline = "2px solid var(--green)";
+        vBox.appendChild(cell);
+
+        const col = document.createElement("div");
+        col.className = "extras-col";
+        if (showExtras) {
+          col.innerHTML =
+            '<div class="chk-row"><input type="checkbox" id="chk-m-' + i + '" ' + (sl.mitad ? "checked" : "") + ' onchange="toggleMitad(' + i + ')"><label for="chk-m-' + i + '" class="chk-label">Mitad y mitad</label><span class="chk-price">+$10</span></div>' +
+            '<div class="chk-row" style="cursor:pointer;" onclick="setOrilla(' + i + ", slots[" + i + "].orilla==='crema' ? 'none' : 'crema'" + ')"><span style="width:13px;height:13px;border-radius:50%;border:2px solid ' + (sl.orilla === "crema" ? "var(--green)" : "#666") + ';background:' + (sl.orilla === "crema" ? "var(--green)" : "transparent") + ';flex-shrink:0;display:inline-block;"></span><span class="chk-label" style="color:' + (sl.orilla === "crema" ? "#fff" : "#ccc") + ';">Orilla queso crema</span><span class="chk-price">+$' + op + "</span></div>" +
+            '<div class="chk-row" style="cursor:pointer;" onclick="setOrilla(' + i + ", slots[" + i + "].orilla==='mozz' ? 'none' : 'mozz'" + ')"><span style="width:13px;height:13px;border-radius:50%;border:2px solid ' + (sl.orilla === "mozz" ? "var(--green)" : "#666") + ';background:' + (sl.orilla === "mozz" ? "var(--green)" : "transparent") + ';flex-shrink:0;display:inline-block;"></span><span class="chk-label" style="color:' + (sl.orilla === "mozz" ? "#fff" : "#ccc") + ';">Orilla mozzarella</span><span class="chk-price">+$' + op + "</span></div>";
+        }
+        extRow.appendChild(col);
+      });
+      updatePickingLabel();
+      recalcTotal();
+    }
+
+    function startPicking(idx, half=1) {
+      activePizza = idx;
+      activeHalf = half;
+      renderVisor();
+      renderFlavorList();
+    }
+
+    function updatePickingLabel() {
+      const lbl = document.getElementById("picking-label");
+      if (activePizza < 0 || !cur) {
+        lbl.style.display = "none";
+        return;
+      }
+      const pLabel = cur.limit > 1 ? "Pizza " + (activePizza + 1) : "Pizza";
+      const hLabel = slots[activePizza].mitad ? (activeHalf === 1 ? " - 1/2 sabor 1" : " - 1/2 sabor 2") : "";
+      lbl.innerText = "Eligiendo: " + pLabel + hLabel + " - toca un sabor de la lista";
+      lbl.style.display = "block";
+    }
+
+    function toggleMitad(i) {
+      slots[i].mitad = document.getElementById("chk-m-" + i).checked;
+      if (!slots[i].mitad) slots[i].sabor2 = "";
+      if (activePizza === i) activeHalf = 1;
+      renderVisor();
+      renderFlavorList();
+    }
+
+    function setOrilla(i, val) {
+      slots[i].orilla = val;
+      renderVisor();
+    }
+
+    function renderFlavorList() {
+      const list = document.getElementById("flavorList");
+      const pool = cur.allowed === "ALL" ? especialidades : especialidades.filter(e => cur.allowed.includes(e.n));
+      list.innerHTML = "";
+      pool.forEach(e => {
+        const div = document.createElement("div");
+        div.className = "flavor-item";
+        const premium = e.n === "MARINERA" && isTwoForOnePicker() && MARINERA_2X1_PRICE[cur.size]
+          ? '<span class="premium-badge">Premium $' + MARINERA_2X1_PRICE[cur.size] + '</span>'
+          : "";
+        div.innerHTML = '<div><strong>' + e.n + premium + '</strong><br><small>' + e.i + '</small></div><button class="flavor-btn" onclick="selectFlavor(\'' + e.n + "')\">+</button>";
+        list.appendChild(div);
+      });
+    }
+
+    function isTwoForOnePicker() {
+      return Boolean(cur && cur.limit === 2 && cur.size && cur.type.toUpperCase().includes("2X1"));
+    }
+
+    function hasSelectedMarinera() {
+      return slots.some((slot) => slot.sabor1 === "MARINERA" || slot.sabor2 === "MARINERA");
+    }
+
+    function currentBasePrice() {
+      if (isTwoForOnePicker() && hasSelectedMarinera()) {
+        return MARINERA_2X1_PRICE[cur.size] || cur.basePrice;
+      }
+      return cur.basePrice;
+    }
+
+    function selectFlavor(nombre) {
+      if (activePizza < 0) activePizza = 0;
+      if (activeHalf === 1) slots[activePizza].sabor1 = nombre;
+      else slots[activePizza].sabor2 = nombre;
+      let found = false;
+      for (let i = 0; i < cur.limit; i++) {
+        if (!slots[i].sabor1) {
+          activePizza = i;
+          activeHalf = 1;
+          found = true;
+          break;
+        }
+        if (slots[i].mitad && !slots[i].sabor2) {
+          activePizza = i;
+          activeHalf = 2;
+          found = true;
+          break;
+        }
+      }
+      if (!found) activePizza = 0;
+      renderVisor();
+      renderFlavorList();
+    }
+
+    function recalcTotal() {
+      if (!cur) return;
+      const op = ORILLA[cur.size] || 0;
+      let extras = cur.cocaExtra;
+      const parts = [];
+      slots.forEach((sl, i) => {
+        const lbl = cur.limit > 1 ? "P" + (i + 1) + ": " : "";
+        if (sl.mitad) {
+          extras += 10;
+          parts.push(lbl + "Mitad +$10");
+        }
+        if (sl.orilla !== "none") {
+          const tipo = sl.orilla === "mozz" ? "Mozz" : "Crema";
+          extras += op;
+          parts.push(lbl + "Orilla " + tipo + " +$" + op);
+        }
+      });
+      const base = currentBasePrice();
+      const premiumPart = base !== cur.basePrice ? "Precio Marinera $" + base : "";
+      if (premiumPart) parts.unshift(premiumPart);
+      const total = base + extras;
+      document.getElementById("p-total").innerText = parts.length ? parts.join(" | ") + "  ->  Total: $" + total : "Total: $" + total;
+    }
+
+    function updateCocaExtra() {
+      const v = document.getElementById("sel-refresco").value;
+      cur.refresco = v;
+      cur.cocaExtra = v === "Coca" ? 20 : 0;
+      recalcTotal();
+    }
+
+    function confirmOrder() {
+      const op = ORILLA[cur.size] || 0;
+      for (let i = 0; i < cur.limit; i++) {
+        if (!slots[i].sabor1) {
+          alert("Elige el sabor de la Pizza " + (i + 1));
+          return;
+        }
+        if (slots[i].mitad && !slots[i].sabor2) {
+          alert("Elige el 2do sabor de la Pizza " + (i + 1));
+          return;
+        }
+      }
+      const flavors = [];
+      let extras = cur.cocaExtra;
+      slots.forEach((sl, i) => {
+        const lbl = cur.limit > 1 ? "Pizza " + (i + 1) + ": " : "";
+        let desc = lbl + (sl.mitad ? sl.sabor1 + " / " + sl.sabor2 + " (mitad y mitad)" : sl.sabor1);
+        if (sl.mitad) extras += 10;
+        if (sl.orilla === "crema") {
+          desc += " + Orilla queso crema";
+          extras += op;
+        } else if (sl.orilla === "mozz") {
+          desc += " + Orilla mozzarella";
+          extras += op;
+        }
+        flavors.push(desc);
+      });
+      const base = currentBasePrice();
+      if (base !== cur.basePrice) flavors.push("Precio premium Marinera aplicado");
+      cart.push({type:cur.type, flavors, price:base + extras, hasRef:cur.hasRef, refresco:cur.refresco});
+      closeModal();
+      updateStats();
+    }
+
+    function closeModal() {
+      document.getElementById("pickerModal").style.display = "none";
+    }
+
+    function openPickerRect(type, limit, price, hasRef) {
+      cur2 = {type, limit, basePrice:price, hasRef, flavors:[], refresco:"Sabor", cocaExtra:0};
+      document.getElementById("pickerTitle2").innerText = type;
+      document.getElementById("refresco-area2").style.display = hasRef ? "block" : "none";
+      document.getElementById("sel-refresco2").value = "Sabor";
+      renderRect();
+      const list = document.getElementById("flavorList2");
+      list.innerHTML = "";
+      especialidades.forEach(e => {
+        list.innerHTML += '<div class="flavor-item"><div><strong>' + e.n + '</strong><br><small>' + e.i + '</small></div><button class="flavor-btn" onclick="pickRect(\'' + e.n + "')\">+</button></div>";
+      });
+      document.getElementById("pickerModal2").style.display = "block";
+    }
+
+    function renderRect() {
+      const vBox = document.getElementById("visual-preview-modal2");
+      vBox.style.gridTemplateColumns = "repeat(" + Math.min(cur2.limit, 4) + ", 1fr)";
+      vBox.innerHTML = "";
+      for (let i = 0; i < cur2.limit; i++) {
+        const filled = cur2.flavors[i];
+        vBox.innerHTML += '<div class="box-cell" id="rv-' + i + '" onclick="clearRect(' + i + ')" style="cursor:pointer;position:relative;background:' + (filled ? "rgba(76,175,80,.22)" : "transparent") + ';">' + (filled || "Sabor " + (i + 1)) + (filled ? '<span style="position:absolute;top:2px;right:6px;color:#ff9388;">X</span>' : "") + "</div>";
+      }
+    }
+
+    function pickRect(n) {
+      let idx = cur2.flavors.findIndex(v => !v);
+      if (idx === -1 && cur2.flavors.length < cur2.limit) idx = cur2.flavors.length;
+      if (idx === -1) return;
+      cur2.flavors[idx] = n;
+      renderRect();
+    }
+
+    function clearRect(i) {
+      cur2.flavors[i] = "";
+      renderRect();
+    }
+
+    function updateCocaExtra2() {
+      const v = document.getElementById("sel-refresco2").value;
+      cur2.refresco = v;
+      cur2.cocaExtra = v === "Coca" ? 20 : 0;
+    }
+
+    function confirmOrder2() {
+      const filled = cur2.flavors.filter(Boolean);
+      if (filled.length < cur2.limit) {
+        alert("Elige todos los sabores");
+        return;
+      }
+      cart.push({type:cur2.type, flavors:filled, price:cur2.basePrice + cur2.cocaExtra, hasRef:cur2.hasRef, refresco:cur2.refresco});
+      closeModal2();
+      updateStats();
+    }
+
+    function closeModal2() {
+      document.getElementById("pickerModal2").style.display = "none";
+    }
+
+    function addToCartDirect(name, price) {
+      cart.push({type:name, flavors:["Complemento"], price, hasRef:false, refresco:""});
+      updateStats();
+      alert(name + " agregado al carrito");
+    }
+
+    function updateStats() {
+      const total = cart.reduce((s, i) => s + i.price, 0);
+      document.getElementById("cart-count").innerText = cart.length;
+      document.getElementById("cart-total").innerText = "$" + total;
+      calculateFinalTotal();
+    }
+
+    function setPay(m) {
+      selectedPay = m;
+      document.querySelectorAll(".pay-option").forEach(el => el.classList.remove("active"));
+      document.getElementById("p-" + m.substring(0, 3).toLowerCase()).classList.add("active");
+      const info = document.getElementById("info-pago-extra");
+      const txt = document.getElementById("txt-pago-inst");
+      const btnMp = document.getElementById("btn-mp");
+      info.style.display = m === "Efectivo" ? "none" : "block";
+      if (m === "Transferencia") {
+        txt.innerHTML = "<strong>Coco Pizza Las Torres</strong><br>Agrega aqui tu CLABE o cuenta bancaria. Por favor envia captura de tu pago.";
+        btnMp.style.display = "none";
+      } else if (m === "Tarjeta") {
+        txt.innerHTML = "<strong>Pago con tarjeta:</strong> se agrega 4% al total. No olvides enviar tu comprobante.";
+        btnMp.style.display = "block";
+      }
+      calculateFinalTotal();
+    }
+
+    function calculateFinalTotal() {
+      let total = cart.reduce((s, i) => s + i.price, 0);
+      if (selectedPay === "Tarjeta") total *= 1.04;
+      document.getElementById("total-final").innerText = "Total: $" + Math.round(total);
+    }
+
+    function getLocation() {
+      if (!navigator.geolocation) {
+        document.getElementById("geo-status").innerText = "Tu navegador no permite enviar ubicacion.";
+        return;
+      }
+      navigator.geolocation.getCurrentPosition(
+        p => {
+          userLocation = "https://www.google.com/maps?q=" + p.coords.latitude + "," + p.coords.longitude;
+          document.getElementById("geo-status").innerText = "Ubicacion capturada correctamente.";
+        },
+        () => {
+          document.getElementById("geo-status").innerText = "No se pudo capturar la ubicacion.";
+        }
+      );
+    }
+
+    function sendWhatsApp() {
+      if (cart.length === 0) {
+        alert("Tu carrito esta vacio.");
+        return;
+      }
+      const n = document.getElementById("c-nombre").value.trim();
+      const tel = document.getElementById("c-tel").value.trim();
+      const d = document.getElementById("c-dir").value.trim();
+      if (!n || !tel || !d) {
+        alert("Faltan nombre, telefono o direccion.");
+        return;
+      }
+      let msg = "*COCO PIZZA Las Torres - PEDIDO*\\n";
+      msg += "Cliente: " + n + "\\n";
+      msg += "Telefono: " + tel + "\\n";
+      msg += "Direccion: " + d + "\\n";
+      msg += "Colonia: " + document.getElementById("c-colonia").value + "\\n";
+      msg += "Zaguan: " + document.getElementById("c-zaguan").value + " | Fachada: " + document.getElementById("c-fachada").value + "\\n";
+      msg += "Notas: " + document.getElementById("c-notas").value + "\\n";
+      msg += "GPS: " + userLocation + "\\n";
+      msg += "----------------\\n";
+      cart.forEach(i => {
+        msg += "- " + i.type + "\\n";
+        if (i.flavors.length) msg += "  " + i.flavors.join("\\n  ") + "\\n";
+        if (i.hasRef) msg += "  Refresco: " + i.refresco + "\\n";
+        msg += "  Subtotal: $" + i.price + "\\n";
+      });
+      msg += "----------------\\n";
+      msg += "Pago: " + selectedPay + "\\n";
+      msg += document.getElementById("total-final").innerText;
+      if (selectedPay === "Tarjeta") window.open(linkMP, "_blank");
+      else if (selectedPay === "Transferencia") msg += "\\nNota: comprobante adjunto en mi galeria.";
+      window.open("https://wa.me/+522228914992?text=" + encodeURIComponent(msg), "_blank");
+    }
+
+    function openCart() {
+      document.getElementById("cartModal").style.display = "block";
+      const items = document.getElementById("cartItems");
+      items.innerHTML = "";
+      if (cart.length === 0) {
+        items.innerHTML = '<p style="color:var(--muted); margin:0;">Aun no hay productos en el carrito.</p>';
+      } else {
+        cart.forEach((i, idx) => {
+          const fl = i.flavors.map(f => "<div>- " + f + "</div>").join("");
+          items.innerHTML += '<div class="cart-item-detail"><strong>' + i.type + ' - <span style="color:var(--gold);">$' + i.price + '</span></strong><button class="remove-btn" onclick="removeItem(' + idx + ')" aria-label="Quitar producto">X</button><div class="flavors">' + fl + '</div>' + (i.hasRef ? '<small>Refresco: ' + i.refresco + "</small>" : "") + "</div>";
+        });
+      }
+      calculateFinalTotal();
+    }
+
+    function removeItem(idx) {
+      cart.splice(idx, 1);
+      updateStats();
+      openCart();
+    }
+
+    function closeCart() {
+      document.getElementById("cartModal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
